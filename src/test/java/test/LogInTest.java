@@ -88,6 +88,8 @@ public class LogInTest {
 
         }
 
+
+
         int numberSamsungG7After = 0;
         List<List<String>> tableDataAfterAddProduct = tablePage.getTableData();
         for(int z = 0; z < tableDataAfterAddProduct.size(); z++) {
@@ -100,12 +102,24 @@ public class LogInTest {
         WebElement SG7priceInCartPage = driver.findElement(By.xpath("//*[@id='tbodyid']/tr[1]/td[3]"));
         String SG7priceInCartPageText = SG7priceInCartPage.getText();
 
-        System.out.println("║ -------------------------------------------------------------║");
-        System.out.println("║ Cart page - Price of " + SamsungG7Text + "  is: $" + SG7priceInCartPageText);
-        System.out.println("║ Cart page - Number of " + SamsungG7Text + " is: " + numberSamsungG7After);
+        WebElement TotalPrice = driver.findElement(By.id("totalp"));
+        String TotalPriceText = TotalPrice.getText();
 
+        int SG7priceInCartPageInt = Integer.parseInt(SG7priceInCartPageText);
+        int TotalPriceInt = Integer.parseInt(TotalPriceText);
+        int TotalPriceIntSum = SG7priceInCartPageInt * numberSamsungG7After;
+
+        System.out.println("║ -------------------------------------------------------------║");
+        System.out.println("║ Cart page - Price of " + SamsungG7Text + "    is: $" + SG7priceInCartPageText);
+        System.out.println("║ Cart page - Number of " + SamsungG7Text + "   is: " + numberSamsungG7After);
+        System.out.println("║ Cart page - Total Price " + SamsungG7Text + " is: $" + TotalPriceIntSum);
+
+        Assert.assertEquals("Test is Failed", TotalPriceIntSum, TotalPriceInt);
         Assert.assertEquals("Test is Failed", SG7priceInCartPageText, SG7priceOnHomePageText);
         Assert.assertEquals("Test is Failed", numberSamsungG7Before + 1, numberSamsungG7After);
+        System.out.println("║ -------------------------------------------------------------║");
+
+
 
         tablePage.close();
 
