@@ -31,16 +31,22 @@ public class LogInTest {
         Assert.assertEquals("Welcome test not found", "Welcome test", loginpage.welcomeText());
 
         loginpage.sleep();
+
+        WebElement SamsungG7onHomePage = driver.findElement(By.xpath("//*[@id='tbodyid']/div[4]/div/div/h4/a"));
+        String SamsungG7Text = SamsungG7onHomePage.getText();
+        WebElement SG7priceOnHomePage = driver.findElement(By.xpath("//*[@id='tbodyid']/div[4]/div/div/h5"));
+        String SG7priceOnHomePageText = SG7priceOnHomePage.getText().substring(1);
+        System.out.println("║ Home page - Selected   product  is: " + SamsungG7Text);
+        System.out.println("║ Home page - Price of " + SamsungG7Text + " is: $" + SG7priceOnHomePageText);
         loginpage.inputCartLink().click();
+
         loginpage.sleep();
 
-
-        String SamsungG7 = "Samsung galaxy s7";
         int numberSamsungG7Before = 0;
         TablePage tablePage = new TablePage(driver);
         List<List<String>> tableDataBeforeAddProduct = tablePage.getTableData();
         for(int n = 0; n < tableDataBeforeAddProduct.size(); n++) {
-           if(tableDataBeforeAddProduct.get(n).get(1).equals(SamsungG7)){
+           if(tableDataBeforeAddProduct.get(n).get(1).equals(SamsungG7Text)){
                 numberSamsungG7Before ++;
            }
 
@@ -68,6 +74,8 @@ public class LogInTest {
 
         loginpage.sleep();
 
+        System.out.println("║ -------------------------------------------------------------║");
+        System.out.println("║ Cart page - View Table in Cart Page: ");
         List<List<String>> tableData = tablePage.getTableData();
         for(int i = 0; i < tableData.size(); i++) {
             List<String> tableRow = tableData.get(i);
@@ -83,12 +91,20 @@ public class LogInTest {
         int numberSamsungG7After = 0;
         List<List<String>> tableDataAfterAddProduct = tablePage.getTableData();
         for(int z = 0; z < tableDataAfterAddProduct.size(); z++) {
-            if(tableDataAfterAddProduct.get(z).get(1).equals(SamsungG7)){
-                numberSamsungG7After ++;
+            if(tableDataAfterAddProduct.get(z).get(1).equals(SamsungG7Text)){
+               numberSamsungG7After ++;
             }
-        }
-        System.out.println("║ Number of Samsung G7 is: " + numberSamsungG7After);
 
+        }
+
+        WebElement SG7priceInCartPage = driver.findElement(By.xpath("//*[@id='tbodyid']/tr[1]/td[3]"));
+        String SG7priceInCartPageText = SG7priceInCartPage.getText();
+
+        System.out.println("║ -------------------------------------------------------------║");
+        System.out.println("║ Cart page - Price of " + SamsungG7Text + "  is: $" + SG7priceInCartPageText);
+        System.out.println("║ Cart page - Number of " + SamsungG7Text + " is: " + numberSamsungG7After);
+
+        Assert.assertEquals("Test is Failed", SG7priceInCartPageText, SG7priceOnHomePageText);
         Assert.assertEquals("Test is Failed", numberSamsungG7Before + 1, numberSamsungG7After);
 
         tablePage.close();
