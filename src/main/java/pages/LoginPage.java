@@ -72,6 +72,18 @@ public class LoginPage {
         return driver.findElement(By.linkText("Samsung galaxy s7"));
     }
 
+    public String SamsungG7Text() {
+        WebElement SamsungG7onHomePage = driver.findElement(By.xpath("//*[@id='tbodyid']/div[4]/div/div/h4/a"));
+        String SamsungG7Text = SamsungG7onHomePage.getText();
+        return SamsungG7Text;
+    }
+
+    public String SG7priceOnHomePageText(){
+        WebElement SG7priceOnHomePage = driver.findElement(By.xpath("//*[@id='tbodyid']/div[4]/div/div/h5"));
+        String SG7priceOnHomePageText = SG7priceOnHomePage.getText().substring(1);
+        return SG7priceOnHomePageText;
+    }
+
     public void sleep(){
         try {
             Thread.sleep(2000);
